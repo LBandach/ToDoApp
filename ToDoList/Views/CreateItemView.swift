@@ -10,10 +10,8 @@ import SwiftUI
 struct CreateItemView: View {
     
     @StateObject var viewModel = CreateItemViewModel()
-    @EnvironmentObject var listViewModel: ListViewModel
     @Environment(\.dismiss) var dismiss
-    @State private var showCancelConfirmation = false
-    
+        
     
     var body: some View {
         VStack {
@@ -26,37 +24,33 @@ struct CreateItemView: View {
 
             HStack {
                 Button {
-                    listViewModel.save(item: viewModel.newItem)
-                    viewModel.cancel()
+                    viewModel.save()
                 } label: {
                     Text("Save")
                 }
                 
                 Button {
-                    showCancelConfirmation = true
+                    viewModel.showCancelConfirmation = true
                 } label: {
                     Text("Cancel")
                 }
             }
             
         }
-        .alert("Are you sure you want to cancel?", isPresented: $showCancelConfirmation) {
+        .alert("Are you sure you want to cancel?", isPresented: $viewModel.showCancelConfirmation) {
             Button("Yes", role: .destructive) {
                 viewModel.cancel()
             }
             Button("No", role: .cancel) {
-                showCancelConfirmation = false
+                viewModel.showCancelConfirmation = false
             }
         }
         .onChange(of: viewModel.shouldDissmis) {
             dismiss()
         }
-        
     }
 }
 
 #Preview {
-    let listViewModel = ListViewModel()
     CreateItemView()
-        .environmentObject(listViewModel)
 }

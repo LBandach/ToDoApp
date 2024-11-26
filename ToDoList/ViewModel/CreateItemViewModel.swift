@@ -9,9 +9,17 @@ import Foundation
 import SwiftUI
 
 class CreateItemViewModel: ObservableObject {
-    
+
     @Published var shouldDissmis: Bool = false
-    @State var newItem: ListItem = ListItem(id: UUID(), title: "")
+    @Published var showCancelConfirmation = false
+
+    @Published var newItem: ListItem = ListItem(id: UUID(), title: "")
+    
+    func save() {
+        //save item
+        shouldDissmis = true
+    }
+    
     
     func cancel() {
         shouldDissmis = true

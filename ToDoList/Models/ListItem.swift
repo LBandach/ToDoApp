@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListItem: Identifiable {
+struct ListItem: Identifiable, Equatable {
     let id: UUID
     var title: String
 }

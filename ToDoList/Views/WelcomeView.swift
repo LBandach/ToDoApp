@@ -36,9 +36,9 @@ struct WelcomeView: View {
         case .newList:
             ListView()
         case .savedLists:
-            Text("")
+            Text("Saved list view")
         case .settings:
-            Text("")
+            Text("Settings")
         case .quit:
             Text("Exiting App...")
                 .onAppear {
@@ -46,7 +46,6 @@ struct WelcomeView: View {
                 }
         }
     }
-    
 }
 
 #Preview {

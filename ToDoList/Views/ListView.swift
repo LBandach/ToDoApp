@@ -10,52 +10,36 @@ import CoreData
 
 struct ListView: View {
     @StateObject var viewModel: ListViewModel = ListViewModel()
-    @State var isShowingAddNewItemView: Bool = false
+    @State var isAddNewItemPresented: Bool = false
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(viewModel.list) { item in
-                    NavigationLink {
-                        Text("Details for \(item.title)")
-                    } label: {
-                        Text(item.title)
-                    }
-                }
-                .onDelete(perform: viewModel.deleteItems)
+        VStack {
+            Text("List View")
+            
+            ForEach(viewModel.list) { item in
+                Text(item.title)
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button {
-                        isShowingAddNewItemView = true
-                    } label: {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                    
-                }
+            .onDelete(perform: viewModel.deleteItems)
+
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                EditButton()
             }
-            .navigationDestination(isPresented: $isShowingAddNewItemView) {
-                CreateItemView()
-                    .environmentObject(viewModel)
+            ToolbarItem {
+                Button {
+                    isAddNewItemPresented = true
+                } label: {
+                    Label("Add Item", systemImage: "plus")
+                }
             }
         }
-        
+        .navigationDestination(isPresented: $isAddNewItemPresented) {
+            CreateItemView()
+        }
     }
-        
-
-    
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
 #Preview {
-    ListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ListView()
 }
